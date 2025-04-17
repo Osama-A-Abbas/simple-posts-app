@@ -8,11 +8,9 @@ class Post extends Model
 {
     protected $fillable = [
         'content',
-        'user_id'
     ];
 
-    protected $table = 'posts';
-
+    
     public function comments(){
         return $this->hasMany(Comment::class);
     }

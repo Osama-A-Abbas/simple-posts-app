@@ -23,7 +23,6 @@ class CreatePostRequest extends FormRequest
     {
         return [
             'content' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id'
         ];
     }
 }
