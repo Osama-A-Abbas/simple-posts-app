@@ -1,8 +1,8 @@
 A simple educational Posts application for new Laravel developers, focused on API development.
 
-If you are having a rough time with Laravel Check the youtube videos. I did a detailed explanations and recorded a real-dev like experience, no edits😌 errors full🔥 and how to solve them😎.
+If you are having a rough time with Laravel, check theese youtube videos. I did a detailed explanations and recorded a real-dev like experience, no edits😌 errors full🔥 and how to solve them😎.
 
-Check the guide on YouTube:
+On YouTube:
 
 (Laravel PostsApp) Part 1: User Authentication using Sanctum
 https://youtu.be/yywe5CLnkrw
