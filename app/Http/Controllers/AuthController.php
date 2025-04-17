@@ -22,6 +22,32 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
+        $cardinals = $request->validated();
 
+        $user = User::where('email',$cardinals['email'])->first();
+
+        if(!$user || !Hash::check($cardinals['password'],$user->password)){
+            return response()->json([
+                'message' => 'Invalid Credentials'
+            ],401);
+        }
+
+        $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login Success',
+            'access_token' => $token,
+            'data' => $user,
+        ]);
+    }
+
+    public function logout()
+    {
+        // delete all user tokens (logout from all devices)
+        auth()->user()->tokens()->delete();
+
+        return response()->json([
+          "message"=>"logged out"
+        ]);
     }
 }
