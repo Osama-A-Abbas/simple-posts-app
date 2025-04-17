@@ -2,8 +2,9 @@ A simple educational Posts application for new Laravel developers, focused on AP
 
 If you are having a rough time with Laravel Check the youtube videos. I did a detailed explanations and recorded a real-dev like experience, no edits😌 errors full🔥 and how to solve them😎.
 
-On YouTube:
-(Laravel PostsApp) Part 1: User Authentication in Laravel using Sanctum
+Check my YouTube guide:
+
+(Laravel PostsApp) Part 1: User Authentication using Sanctum
 https://youtu.be/yywe5CLnkrw
 
 
