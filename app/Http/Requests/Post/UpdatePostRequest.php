@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Http\Requests\Post;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
+class UpdatePostRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        // return Auth::check();
+        $post = $this->route('post'); // Gets the Post from the route
+        return $post && $this->user()->id === $post->user_id;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'content' => 'required|string|max:5000'
+        ];
+    }
+}

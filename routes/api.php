@@ -17,11 +17,15 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 
 
 //user routes
-Route::get('users', [UserController::class, 'index'])->middleware(['auth:sanctum', 'user.check']);
+// Route::get('users', [UserController::class, 'index'])->middleware(['auth:sanctum', 'is.admin']);
+Route::get('users', [UserController::class, 'index']);
+
 Route::get('users/{user}', [UserController::class, 'show']);
 Route::put('users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('users/{user}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
 
+// Route::middlewareGroup()
 
 Route::get('posts', [PostController::class, 'index']);
-Route::post('posts', [PostController::class, 'store']);
+Route::post('posts', [PostController::class, 'store'])->middleware('auth:sanctum');
+Route::put('posts/{post}', [PostController::class, 'update'])->middleware('auth:sanctum');

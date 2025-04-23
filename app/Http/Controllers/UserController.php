@@ -13,7 +13,14 @@ class UserController extends Controller
      */
     public function index()
     {
+        // $users = User::with('posts')
+        //     ->select(['id', 'name', 'email', 'role'])
+        //     ->get();
+
+        // $users = User::all()->withRelationshipAutoloading();
+
         $users = User::all();
+        // $users = User::with('posts')->select(['id', 'name', 'email', 'role'])->get();
         return $users;
     }
 

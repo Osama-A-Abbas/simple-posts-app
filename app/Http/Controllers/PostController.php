@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\Post\CreatePostRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    public function __construct(
+        protected Post $post,
+    ){}
     /**
      * Display a listing of the resource.
      */
@@ -25,9 +29,13 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $post = Post::create($request->validated());
+        $user = $request->user();
+
+        $post = $user->posts()->create($request->validated());
+
         return response()->json([
-            "message" => 'success'
+            "message" => 'Post created Successfully',
+            'data' => $post,
         ]);
     }
 
@@ -42,9 +50,14 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        return response()->json([
+            "message" => 'Post Updated Successfully',
+            'data' => $post,
+        ]);
     }
 
     /**

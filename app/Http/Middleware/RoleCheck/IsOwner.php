@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\RoleCheck;
 
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserCheckMiddleware
+class IsOwner
 {
     /**
      * Handle an incoming request.
@@ -15,13 +15,6 @@ class UserCheckMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()->isAdmin()) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ],403);
-        }
-
         return $next($request);
-
     }
 }

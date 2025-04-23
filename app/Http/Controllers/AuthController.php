@@ -24,9 +24,9 @@ class AuthController extends Controller
     {
         $cardinals = $request->validated();
 
-        $user = User::where('email',$cardinals['email'])->first();
+        $user = User::where('email', $cardinals['email'])->first();
 
-        if(!$user || !Hash::check($cardinals['password'],$user->password)){
+        if(!$user || !Hash::check($cardinals['password'], $user->password)){
             return response()->json([
                 'message' => 'Invalid Credentials'
             ],401);

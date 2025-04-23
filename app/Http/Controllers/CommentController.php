@@ -12,7 +12,10 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::all();
+        return response()->json([
+            'data' => $comments
+        ]);
     }
 
     /**
