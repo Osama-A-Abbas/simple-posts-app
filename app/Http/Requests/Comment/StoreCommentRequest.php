@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdatePostRequest extends FormRequest
+class StoreCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::check();
-        // $post = $this->route('post'); // Gets the Post from the route
-        // return $post && $this->user()->id === $post->user_id;
+        return false;
     }
 
     /**
@@ -25,7 +22,7 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|string|max:5000'
+            //
         ];
     }
 }

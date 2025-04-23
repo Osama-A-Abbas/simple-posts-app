@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Post\CreatePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -52,6 +53,8 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        Gate::authorize('update', $post);
+
         $post->update($request->validated());
 
         return response()->json([

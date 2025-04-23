@@ -21,5 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::preventLazyLoading(); //throw error if lazy loading used, comment it if causes issues
+
+        // Gate::()
     }
 }

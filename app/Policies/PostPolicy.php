@@ -13,7 +13,7 @@ class PostPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,11 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return false;
+        // return $user->id === $post->user_id
+        // ? Response::allow()
+        // : Response::deny('You do not own this post.');
+        // change method return type to response if wanna use this one👆👆
+        return $user->id === $post->user_id;
     }
 
     /**
@@ -45,7 +49,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return false;
+        return $user->id === $post->user_id;
     }
 
     /**
@@ -53,7 +57,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return false;
+        return $user->id === $post->user_id;
     }
 
     /**
@@ -61,6 +65,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return false;
+        return $user->id === $post->user_id;
     }
 }
