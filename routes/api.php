@@ -25,7 +25,10 @@ Route::put('users/{user}', [UserController::class, 'update'])->middleware('auth:
 Route::delete('users/{user}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
 
 // Route::middlewareGroup()
-
-Route::get('posts', [PostController::class, 'index']);
-Route::post('posts', [PostController::class, 'store'])->middleware('auth:sanctum');
-Route::put('posts/{post}', [PostController::class, 'update'])->middleware('auth:sanctum');
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::get('posts', [PostController::class, 'index']);
+    Route::post('posts', [PostController::class, 'store']);
+    Route::get('posts/{post}', [PostController::class, 'show']);
+    Route::put('posts/{post}', [PostController::class, 'update']);
+    Route::delete('posts/{post}', [PostController::class, 'destroy']);
+});

@@ -43,7 +43,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        
+        return response()->json([
+            'data' => $post
+        ]);
     }
 
     /**
@@ -80,8 +82,14 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        Gate::authorize('delete', $post);
+
+        $post->delete();
+
+        return response()->json([
+            "message" => 'Post Deleted Successfully',
+        ]);
     }
 }

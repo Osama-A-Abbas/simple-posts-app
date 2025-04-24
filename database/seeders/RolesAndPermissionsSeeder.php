@@ -15,14 +15,20 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
+        //Posts permissions
+        Permission::create(['name' => 'view posts']);
+        Permission::create(['name' => 'create post']);
+        Permission::create(['name' => 'view post']);
+        Permission::create(['name' => 'update post']);
+        Permission::create(['name' => 'delete post']);
+        ///////////////////////////////////////////////
 
-        // Permission::create(['name' => 'view books']); //user
 
 
 
-        // Role::create(['name' => 'admin']);
-        // User::find(1)->assignRole('admin')
-        // ->givePermissionTo(Permission::all());
+        Role::create(['name' => 'admin']);
+        User::find(1)->assignRole('admin')
+        ->givePermissionTo(Permission::all());
 
     }
 }

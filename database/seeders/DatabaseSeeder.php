@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'Aa123456!',
             'role' => 'admin'
         ]);
-
+        RolesAndPermissionsSeeder::class;
 
         User::create([
             'name' => 'user',
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'Aa123456!',
             'role' => 'user'
         ]);
-        
+
         User::factory(1000)->create();
         Post::factory(5000)->create();
 
