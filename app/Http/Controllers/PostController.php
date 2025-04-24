@@ -30,9 +30,7 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $user = $request->user();
-
-        $post = $user->posts()->create($request->validated());
+        $post = $request->user()->posts()->create($request->validated());
 
         return response()->json([
             "message" => 'Post created Successfully',
@@ -43,9 +41,9 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $id)
+    public function show(Post $post)
     {
-        //
+        
     }
 
     /**
@@ -61,6 +59,22 @@ class PostController extends Controller
             "message" => 'Post Updated Successfully',
             'data' => $post,
         ]);
+
+        //This approach allows more customization
+        // $response = Gate::inspect('update', $post);
+
+        // if ($response->allowed()){
+        //     $post->update($request->validated());
+
+        //     return response()->json([
+        //         "message" => 'Post Updated Successfully',
+        //         'data' => $post,
+        //     ]);
+        // } else {
+        //     return response()->json([
+        //         "message" => 'Unauthorized only the owner of the post can update it',
+        //     ],403);
+        // }
     }
 
     /**

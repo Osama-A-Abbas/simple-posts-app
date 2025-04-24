@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PostPolicy
 {
@@ -37,11 +38,9 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        // return $user->id === $post->user_id
-        // ? Response::allow()
-        // : Response::deny('You do not own this post.');
-        // change method return type to response if wanna use this one👆👆
         return $user->id === $post->user_id;
+        // ? Response::allow() // optional to return response
+        // : Response::deny('Only the owner of the post can update it');
     }
 
     /**
