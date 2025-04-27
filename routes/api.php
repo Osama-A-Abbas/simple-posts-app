@@ -22,19 +22,21 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 //user routes
 // Route::get('users', [UserController::class, 'index'])->middleware(['auth:sanctum', 'is.admin']);
 Route::get('users', [UserController::class, 'index']);
-
 Route::get('users/{user}', [UserController::class, 'show']);
 Route::put('users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('users/{user}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
-
-Route::get('posts/filter', function (Request $request) {
-    return Post::query()->filter()->get();
+Route::get('users-filter', function (Request $request) {
+    return User::query()->filter()->get(); //in the api send it as param: filter[attrbiute]        value=.....
 });
+///////////
+
+
 // Post routes \\\\\\
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
-
-
+Route::get('posts-filter', function (Request $request) {
+    return Post::query()->filter()->get();
+});
 Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('posts', [PostController::class, 'store']);
     Route::put('posts/{post}', [PostController::class, 'update']);
