@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Comment\IndexCommentsRequest;
 use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Models\Comment;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
@@ -21,12 +22,10 @@ class CommentController extends Controller
     {
         $validatedData = $request->validated();
 
-        $post = $this->post->findOrFail($validatedData['post_id']);
-
-        $comments = $post->comments;
+        $postWithComments = $this->post->with('comments')->findOrFail($validatedData['post_id']);
 
         return response()->json([
-            'data' => $comments
+            'post' => $postWithComments,
         ]);
     }
 
@@ -55,16 +54,25 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        //
+        return response()->json([
+            'data' => $comment,
+        ]);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        //
+        Gate::authorize('update', $comment);
+
+        $comment->update($request->validated());
+
+        return response()->json([
+            "message" => 'Post Updated Successfully',
+            'data' => $comment,
+        ]);
     }
 
     /**
@@ -72,6 +80,12 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        Gate::authorize('delete', $comment);
+
+        $comment->delete();
+
+        return response()->json([
+            'message' => 'Comment Deleted Successfully',
+        ]);
     }
 }
