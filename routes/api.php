@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,10 +27,13 @@ Route::get('users/{user}', [UserController::class, 'show']);
 Route::put('users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('users/{user}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
 
-
+Route::get('posts/filter', function (Request $request) {
+    return Post::query()->filter()->get();
+});
 // Post routes \\\\\\
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
+
 
 Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('posts', [PostController::class, 'store']);
