@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             'password' => 'Aa123456!',
             'role' => 'admin'
         ]);
-        RolesAndPermissionsSeeder::class;
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+        ]);
 
         User::create([
             'name' => 'user',
