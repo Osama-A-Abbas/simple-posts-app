@@ -14,7 +14,7 @@ class CommentController extends Controller
     public function __construct(
         protected Comment $comment,
         protected Post $post,
-    ){}
+    ) {}
     /**
      * Display a listing of the resource.
      */
@@ -22,8 +22,7 @@ class CommentController extends Controller
     {
         $validatedData = $request->validated();
 
-
-        if(isset($validatedData['post_id'])){
+        if (isset($validatedData['post_id'])) {
             $postWithComments = $this->post->with('comments')->findOrFail($validatedData['post_id']);
 
             return response()->json([

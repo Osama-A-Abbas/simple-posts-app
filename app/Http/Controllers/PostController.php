@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
-
     public function __construct(
         protected Post $post,
     ){}
@@ -18,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('comments')->get();
+        $posts = $this->post::with('comments')->get();
         return response()->json([
             'data' => $posts
         ]);
