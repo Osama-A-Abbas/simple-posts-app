@@ -22,10 +22,19 @@ class CommentController extends Controller
     {
         $validatedData = $request->validated();
 
-        $postWithComments = $this->post->with('comments')->findOrFail($validatedData['post_id']);
+
+        if(isset($validatedData['post_id'])){
+            $postWithComments = $this->post->with('comments')->findOrFail($validatedData['post_id']);
+
+            return response()->json([
+                'post' => $postWithComments,
+            ]);
+        }
+
+        $comment = $this->comment->with('post')->latest()->get();
 
         return response()->json([
-            'post' => $postWithComments,
+            'post' => $comment,
         ]);
     }
 

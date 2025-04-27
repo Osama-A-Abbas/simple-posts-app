@@ -22,7 +22,7 @@ class IndexCommentsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'post_id' => 'required|exists:posts,id'
+            'post_id' => 'sometimes|exists:posts,id'
         ];
     }
 }
