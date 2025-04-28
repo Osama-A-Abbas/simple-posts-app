@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Requests\Post\FilterPostRequest;
+use App\Http\Requests\User\FilterUserRequest;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,7 +27,7 @@ Route::get('users', [UserController::class, 'index']);
 Route::get('users/{user}', [UserController::class, 'show']);
 Route::put('users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('users/{user}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
-Route::get('users-filter', function (Request $request) {
+Route::get('users-filter', function (FilterUserRequest $request) {
     return User::query()->filter()->get(); //in the api send it as param: filter[attrbiute]        value=.....
 });
 ///////////
@@ -34,13 +36,13 @@ Route::get('users-filter', function (Request $request) {
 // Post routes \\\\\\
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
-Route::get('posts-filter', function (Request $request) {
-    return Post::query()->filter()->get();
-});
 Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('posts', [PostController::class, 'store']);
     Route::put('posts/{post}', [PostController::class, 'update']);
     Route::delete('posts/{post}', [PostController::class, 'destroy']);
+});
+Route::get('posts-filter', function (FilterPostRequest $request) {
+    return Post::query()->filter()->get();
 });
 //////////////////////
 
