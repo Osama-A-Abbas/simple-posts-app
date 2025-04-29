@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait Filterable {
 
+    //updated filter trait
     public function scopeFilter(Builder $query)
     {
         $filters = request('filter', []);

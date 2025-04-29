@@ -15,20 +15,31 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        //Posts permissions
+        // User::find(1)->assignRole('writer');
+
+        Role::create(['name' => 'writer']);
+        //writer permissions
+        Permission::create(['name' => 'create post'])->assignRole('writer');
+        Permission::create(['name' => 'edit own post'])->assignRole('writer');
+        Permission::create(['name' => 'delete own post'])->assignRole('writer');
+        Permission::create(['name' => 'like post'])->assignRole('writer');
+        Permission::create(['name' => 'write comment'])->assignRole('writer');
+        Permission::create(['name' => 'edit on comment'])->assignRole('writer');
+        Permission::create(['name' => 'delete on comment'])->assignRole('writer');
+        Permission::create(['name' => 'like comment'])->assignRole('writer');
+        /////////////////////////////////////////
+
         Permission::create(['name' => 'view posts']);
-        Permission::create(['name' => 'create post']);
-        Permission::create(['name' => 'view post']);
-        Permission::create(['name' => 'update post']);
-        Permission::create(['name' => 'delete post']);
+
+
+        /////////admin
+        Permission::create(['name' => 'edit all posts']);
+        Permission::create(['name' => 'delete all post']);
+        Permission::create(['name' => 'edit all comment']);
+        Permission::create(['name' => 'delete all comment']);
         ///////////////////////////////////////////////
-
-
-
-
         Role::create(['name' => 'admin']);
         User::find(1)->assignRole('admin')
         ->givePermissionTo(Permission::all());
-
     }
 }
