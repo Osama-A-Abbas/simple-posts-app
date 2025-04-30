@@ -18,9 +18,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin user',
             'email' => 'admin@example.com',
             'password' => 'Aa123456!',
-            'role' => 'admin'
         ]);
-        
+
+        User::create([
+            'name' => 'mod user',
+            'email' => 'mod@example.com',
+            'password' => 'Aa123456!',
+        ]);
+
+
         $this->call([
             RolesAndPermissionsSeeder::class,
         ]);
@@ -29,7 +35,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'user',
             'email' => 'user@example.com',
             'password' => 'Aa123456!',
-            'role' => 'user'
         ]);
 
         User::factory(1000)->create();

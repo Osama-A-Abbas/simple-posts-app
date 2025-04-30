@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Middleware\CanView\CanViewAllUsersMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\IsAdminMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'is.admin' => IsAdminMiddleware::class
+            'can.view.all.users' => CanViewAllUsersMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

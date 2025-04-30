@@ -62,3 +62,11 @@ alwaysApply: true
   9. Implement proper database transactions for data integrity.
   10. Use Laravel's built-in scheduling features for recurring tasks.
 
+  General Rules:
+    Clean Coding
+    Clean Architecture
+    Reusable Code
+    Smart Developemnt
+
+    Extra Rules for Laravel-blade and fullstack developemnt:
+        Make clean components and follow the best practies for all the used langauges.

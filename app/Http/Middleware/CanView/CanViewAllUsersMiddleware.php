@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Middleware\RoleCheck;
+namespace App\Http\Middleware\CanView;
 
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsOwner
+class CanViewAllUsersMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,6 +15,12 @@ class IsOwner
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (! $request->user()->can('view users')) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
         return $next($request);
+
     }
 }
