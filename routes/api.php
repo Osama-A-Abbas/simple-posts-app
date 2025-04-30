@@ -22,11 +22,13 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 
 
 //user routes
-Route::get('users', [UserController::class, 'index'])->middleware(['auth:sanctum', 'can.view.all.users']);
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::get('users', [UserController::class, 'index'])->middleware('can.view.all.users');
+    Route::put('users/{user}', [UserController::class, 'update']); // used policy instead of middleware
+    Route::delete('users/{user}', [UserController::class, 'destroy']);
+});
 // Route::get('users', [UserController::class, 'index']);
 Route::get('users/{user}', [UserController::class, 'show']);
-Route::put('users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
-Route::delete('users/{user}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
 Route::get('users-filter', function (FilterUserRequest $request) {
     return User::query()->filter()->get(); //in the api send it as param: filter[attrbiute]        value=.....
 });

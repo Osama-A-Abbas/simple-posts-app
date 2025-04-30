@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware\CanView;
+namespace App\Http\Middleware\User;
 
 use Closure;
 use Illuminate\Http\Request;

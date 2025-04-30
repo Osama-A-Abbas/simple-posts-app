@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Middleware\CanView\CanViewAllUsersMiddleware;
+use App\Http\Middleware\User\CanUpdateUserInfo;
+use App\Http\Middleware\User\CanViewAllUsersMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,7 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'can.view.all.users' => CanViewAllUsersMiddleware::class
+            'can.view.all.users' => CanViewAllUsersMiddleware::class,
+            'update.user.info' => CanUpdateUserInfo::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

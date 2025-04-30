@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('views')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

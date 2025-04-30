@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -37,10 +37,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        if ($request->user()->isNot($user)) {
-            abort(403, 'unauthorized');
-        }
-
+       Gate::authorize('update', $user);
         $user->update($request->validated());
         return response()->json([
             'message' => 'Updated Successfully',
@@ -53,7 +50,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        //$user->forceDelete();   // deletes the record from db
+        $user->delete();         // flags the record and fills the deleted_at attribute in table
 
         return response()->json([
             'message' => 'User Deleted Successfully'

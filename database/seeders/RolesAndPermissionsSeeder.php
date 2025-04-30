@@ -6,86 +6,62 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run(): void
     {
-        // Clear cache to avoid permission issues
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        // Clear permission cache
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // === ROLES ===
-        $writerRole = Role::create(['name' => 'writer']);
-        $adminRole = Role::create(['name' => 'admin']);
-        $moderatorRole = Role::create(['name' => 'moderator']);
-
-        // === PERMISSIONS ===
-
-        // Post Permissions
-        $postPermissions = [
-            'create post',
-            'edit own post',
-            'delete own post',
-            'view posts',
-            'like post',
+        // === Define Roles ===
+        $roles = [
+            'writer',
+            'moderator',
+            'admin',
         ];
 
-        // Comment Permissions
-        $commentPermissions = [
-            'write comment',
-            'edit own comment',
-            'delete own comment',
-            'like comment',
-        ];
-
-        // Admin / Moderator Permissions
-        $modPermissions = [
-            'edit all posts',
-            'delete all posts',
-            'edit all comments',
-            'delete all comments',
-        ];
-
-        // General App Permissions
-        $generalPermissions = [
-            // User management
-            'view users',
-            'view user',
-            'edit user',
-            'delete user',
-            'create user',
-
-            // System / Admin
-            'access admin panel',
-            'manage roles',
-            'manage permissions',
-            'view system logs',
-
-            // Personal profile
-            'view own profile',
-            'edit own profile',
-        ];
-
-        // Create and assign permissions to writer
-        foreach (array_merge($postPermissions, $commentPermissions) as $perm) {
-            Permission::create(['name' => $perm])->assignRole($writerRole);
+        foreach ($roles as $role) {
+            Role::firstOrCreate(['name' => $role]);
         }
 
-        // Create and assign moderator permissions (if needed)
-        foreach ($modPermissions as $perm) {
-            Permission::create(['name' => $perm])->assignRole($moderatorRole);
+        // === Define Permissions ===
+        $permissions = [
+            // Writer Permissions
+            'writer' => [
+                'create post', 'edit own post', 'delete own post', 'view posts', 'like post',
+                'write comment', 'edit own comment', 'delete own comment', 'like comment',
+                'view own profile', 'edit own profile', 'view public profiles', 'delete own account',
+            ],
+
+            // Moderator Permissions
+            'moderator' => [
+                'edit all posts', 'delete all posts', 'edit all comments', 'delete all comments',
+            ],
+
+            // Admin Permissions
+            'admin' => [
+                'view users', 'view user', 'edit user', 'delete user', 'create user',
+                'access admin panel', 'manage roles', 'manage permissions',
+                'view system logs', 'view private profile',
+            ],
+        ];
+
+        // === Create and Assign Permissions ===
+        foreach ($permissions as $role => $perms) {
+            foreach ($perms as $perm) {
+                $permission = Permission::firstOrCreate(['name' => $perm]);
+                Role::where('name', $role)->first()?->givePermissionTo($permission);
+            }
         }
 
-        // Create and assign to admin
-        foreach ($generalPermissions as $perm) {
-            Permission::create(['name' => $perm])->assignRole($adminRole);
-        }
+        // Assign all permissions to admin role
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminRole?->syncPermissions(Permission::all());
 
-        // Assign all permissions to admin
-        $allPermissions = Permission::all();
-        User::find(1)?->assignRole($adminRole)->givePermissionTo($allPermissions);
-
-        // Assign mod permissions to user 2
-        User::find(2)?->assignRole($moderatorRole);
+        // === Assign Roles to Specific Users ===
+        User::find(1)?->assignRole('admin');
+        User::find(2)?->assignRole('moderator');
     }
 }
